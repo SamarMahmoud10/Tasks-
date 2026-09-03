@@ -1,16 +1,20 @@
 # WhatsApp Chat Screen — Flutter Implementation
 
-تنفيذ Flutter لشاشة شات واتساب طبقًا لسبيسيفيكيشن الفيجما (الصورة المرفقة)، بدقّة عالية:
+A Flutter implementation of a WhatsApp chat screen based on the Figma specification (attached image), with high visual accuracy:
 
-- **Colors**: White `#FFFFFF` · Green `#168C4B` · Black `#181818` · Outgoing bubble `#232D3D`
-- **AppBar**: خلفية خضراء، أيقونة رجوع، صورة بروفايل دائرية، اسم بولد مقاس 14، أيقونات مكالمة صوت/فيديو، قائمة (3 نقط).
-- **Message bubbles**: الوارد (يسار) أخضر مع نص أبيض 16px وزاوية علوية-يسار = 0. الصادر (يمين) رمادي غامق `#232D3D` مع نص أبيض 16px وزاوية علوية-يمين = 0. باقي الزوايا radius = 16.
-- **Body**: خلفية داكنة `#181818` مع نقشة (doodle pattern) متكررة من أيقونات واتساب (شات، مكالمة، كاميرا، مايك...) برسم مخصص (CustomPainter) بدل صورة ثابتة، مع padding أفقي 16.
-- **Input bar**: حقل نص بيضاوي بحدود خضراء 1px، أيقونة كاميرا (prefix)، أيقونة إرسال (suffix)، Hint "Type a message..." أبيض مقاس 12، وزرار مايك دائري أخضر مرفوع (elevated) بجانبه.
+* **Colors**: White `#FFFFFF` · Green `#168C4B` · Black `#181818` · Outgoing bubble `#232D3D`
+* **AppBar**: Green background, back icon, circular profile picture, bold name at 14px, voice/video call icons, and three-dot menu.
+* **Message bubbles**:
 
-## بنية المشروع
+  * Incoming: Green, white text at 16px, top-left corner radius = 0.
+  * Outgoing: Dark gray `#232D3D`, white text at 16px, top-right corner radius = 0.
+  * All other corners have a radius of 16.
+* **Body**: Dark background `#181818` with a repeating WhatsApp-style doodle pattern (chat, call, camera, microphone, etc.) created using a custom `CustomPainter` instead of a static image, with 16px horizontal padding.
+* **Input bar**: Rounded text field with a 1px green border, camera icon as the prefix, send icon as the suffix, and `"Type a message..."` hint in white at 12px. A raised circular green microphone button is placed beside it.
 
-```
+## Project Structure
+
+```text
 whatsapp_chat_ui/
 ├── pubspec.yaml
 ├── analysis_options.yaml
@@ -26,34 +30,59 @@ whatsapp_chat_ui/
     └── screens/chat_screen.dart
 ```
 
-## طريقة التشغيل
+## How to Run
 
-المشروع مبني بـ Dart/Flutter فقط (بدون مجلدات android/ios جاهزة، عشان يفضل خفيف ومحمول). لتشغيله:
+The project is built using Dart/Flutter only, without pre-generated `android/ios` folders, so it remains lightweight and portable.
 
-1. لازم يكون عندك Flutter SDK متثبت. تأكدي بـ:
-   ```bash
-   flutter --version
-   ```
+### 1. Make sure Flutter SDK is installed
 
-2. اعملي مشروع Flutter جديد فاضي (عشان يجيب مجلدات android/ios/web تلقائي):
-   ```bash
-   flutter create whatsapp_chat_ui
-   ```
+Run:
 
-3. روحي داخل المجلد اللي اتعمل، وامسحي مجلد `lib` وملف `pubspec.yaml` الافتراضيين، واستبدليهم بالملفات اللي جوه المجلد ده (وكمان `analysis_options.yaml`).
+```bash
+flutter --version
+```
 
-4. رجعي تجيبي الباكدجز:
-   ```bash
-   flutter pub get
-   ```
+### 2. Create a new empty Flutter project
 
-5. شغلي المشروع:
-   ```bash
-   flutter run
-   ```
+This will automatically generate the required `android`, `ios`, `web`, and other platform folders:
 
-## ملاحظات
+```bash
+flutter create whatsapp_chat_ui
+```
 
-- الصور (زي صورة البروفايل وصورة الرسالة اللي فيها ميديا) اتعملت كـ placeholders برسم/أيقونات بدل ملفات صور حقيقية، لأن التصميم الأصلي مكانش متاح كملفات assets. سهل تستبدليها بصور حقيقية عن طريق `Image.asset('...')` أو `Image.network('...')` في `chat_app_bar.dart` و `message_bubble.dart`.
-- الرسائل التجريبية (Hello, Reply?, ... إلخ) Sample data بس عشان تُظهر الأشكال الأربعة المطلوبة (رسالة واردة نص، رسالة صادرة نص، رسالة واردة بصورة+كابشن، رسالة صادرة نص) — سهل تستبدليها ببيانات حقيقية أو تربطيها بـ backend.
-- الكود متقسم مكونات منفصلة (AppBar / Bubble / InputBar / Background) عشان يبقى قابل لإعادة الاستخدام والتعديل بسهولة.
+### 3. Replace the default files
+
+Go inside the newly created project folder.
+
+Delete the default `lib` folder and the default `pubspec.yaml`, then replace them with the files provided in this project.
+
+Also replace `analysis_options.yaml`.
+
+### 4. Install the dependencies
+
+Run:
+
+```bash
+flutter pub get
+```
+
+### 5. Run the application
+
+```bash
+flutter run
+```
+
+## Notes
+
+* **Images**: Profile pictures and media-message images are implemented as placeholders using custom drawings/icons instead of real image assets, since the original design did not provide the actual image files. You can easily replace them with real images using `Image.asset('...')` or `Image.network('...')` in `chat_app_bar.dart` and `message_bubble.dart`.
+
+* **Sample Messages**: The sample messages (`Hello`, `Reply?`, etc.) are placeholder data used only to demonstrate the four required message types:
+
+  1. Incoming text message
+  2. Outgoing text message
+  3. Incoming image + caption message
+  4. Outgoing text message
+
+  They can easily be replaced with real data or connected to a backend.
+
+* **Component Structure**: The code is divided into reusable components (`AppBar`, `MessageBubble`, `InputBar`, and `Background`) to make the UI easier to maintain, reuse, and modify.
